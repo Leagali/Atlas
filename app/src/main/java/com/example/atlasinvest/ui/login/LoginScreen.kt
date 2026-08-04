@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -21,13 +24,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.atlasinvest.AtlasInvestApplication
 import com.example.atlasinvest.controller.AutenticacaoViewModel
 import com.example.atlasinvest.controller.EstadoAutenticacao
 import com.example.atlasinvest.controller.FabricaViewModel
+import com.example.atlasinvest.ui.theme.NavyInvest
+import com.example.atlasinvest.ui.theme.VermelhoAtlas
 
 @Composable
 fun LoginScreen(
@@ -57,17 +64,34 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Atlas Invest", style = MaterialTheme.typography.titleLarge)
-        Spacer(Modifier.height(32.dp))
+        Text(
+            text = "Atlas Invest",
+            style = MaterialTheme.typography.headlineLarge,
+            color = VermelhoAtlas,
+            fontWeight = FontWeight.ExtraBold,
+            letterSpacing = 1.sp
+        )
+        Text(
+            text = "Sua jornada financeira começa aqui",
+            style = MaterialTheme.typography.bodyMedium,
+            color = NavyInvest,
+            modifier = Modifier.padding(top = 4.dp)
+        )
+        
+        Spacer(Modifier.height(48.dp))
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
             label = { Text("E-mail") },
             singleLine = true,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = VermelhoAtlas,
+                focusedLabelColor = VermelhoAtlas
+            )
         )
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(16.dp))
 
         OutlinedTextField(
             value = senha,
@@ -75,14 +99,19 @@ fun LoginScreen(
             label = { Text("Senha") },
             singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = VermelhoAtlas,
+                focusedLabelColor = VermelhoAtlas
+            )
         )
-        Spacer(Modifier.height(24.dp))
+        Spacer(Modifier.height(32.dp))
 
         if (estado is EstadoAutenticacao.Erro) {
             Text(
                 text = (estado as EstadoAutenticacao.Erro).mensagem,
-                color = MaterialTheme.colorScheme.error
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
             )
             Spacer(Modifier.height(12.dp))
         }
@@ -90,14 +119,25 @@ fun LoginScreen(
         Button(
             onClick = { viewModel.login(email.trim(), senha) },
             enabled = estado !is EstadoAutenticacao.Carregando,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = VermelhoAtlas),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text(if (estado is EstadoAutenticacao.Carregando) "Entrando..." else "Entrar")
+            Text(
+                text = if (estado is EstadoAutenticacao.Carregando) "Entrando..." else "Entrar",
+                fontWeight = FontWeight.Bold
+            )
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(16.dp))
 
         TextButton(onClick = aoNavegarParaCadastro) {
-            Text("Não tem conta? Cadastre-se")
+            Text(
+                "Não tem conta? Cadastre-se",
+                color = NavyInvest,
+                fontWeight = FontWeight.SemiBold
+            )
         }
     }
 }

@@ -33,10 +33,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.atlasinvest.AtlasInvestApplication
 import com.example.atlasinvest.controller.FabricaViewModel
 import com.example.atlasinvest.controller.MetaViewModel
 import com.example.atlasinvest.data.local.entity.Meta
+import com.example.atlasinvest.ui.navigation.Destino
+import com.example.atlasinvest.ui.theme.BarraInferiorAtlas
+import com.example.atlasinvest.ui.theme.CabecalhoAtlas
+import com.example.atlasinvest.ui.theme.FundoTela
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -44,14 +49,25 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun MetasScreen(app: AtlasInvestApplication, usuarioId: Long) {
+fun MetasScreen(app: AtlasInvestApplication, usuarioId: Long, navController: NavHostController) {
     val viewModel: MetaViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
     val metas by viewModel.metas.collectAsState()
     val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale("pt", "BR")) }
     var mostrarDialogo by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Metas financeiras") }) },
+        containerColor = FundoTela,
+        topBar = { CabecalhoAtlas(nomeUsuario = "Luiz", iniciais = "LL") },
+        bottomBar = {
+            BarraInferiorAtlas(
+                aoClicarInicio = { navController.navigate("${Destino.Dashboard.rota}/$usuarioId") },
+                aoClicarMovimentos = { navController.navigate("${Destino.Movimentacoes.rota}/$usuarioId") },
+                aoClicarCarteira = { navController.navigate("${Destino.Carteira.rota}/$usuarioId") },
+                aoClicarRelatorios = { navController.navigate("${Destino.Relatorios.rota}/$usuarioId") },
+                aoClicarMetas = {},
+                rotaAtual = "metas"
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { mostrarDialogo = true }) {
                 Icon(Icons.Default.Add, contentDescription = "Nova meta")

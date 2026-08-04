@@ -75,6 +75,7 @@ dependencies {
     // Ícones extras do Material Design (usados nas telas)
     implementation(libs.material.icons.extended)
 
+
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

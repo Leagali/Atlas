@@ -66,7 +66,7 @@ fun AtlasNavGraph(
             arguments = listOf(navArgument("usuarioId") { type = NavType.LongType })
         ) { backStackEntry ->
             val usuarioId = backStackEntry.arguments?.getLong("usuarioId") ?: usuarioIdInicial
-            MovimentacoesScreen(app = app, usuarioId = usuarioId)
+            MovimentacoesScreen(app = app, usuarioId = usuarioId, navController = navController)
         }
 
         composable(
@@ -74,7 +74,7 @@ fun AtlasNavGraph(
             arguments = listOf(navArgument("usuarioId") { type = NavType.LongType })
         ) { backStackEntry ->
             val usuarioId = backStackEntry.arguments?.getLong("usuarioId") ?: usuarioIdInicial
-            MetasScreen(app = app, usuarioId = usuarioId)
+            MetasScreen(app = app, usuarioId = usuarioId, navController = navController)
         }
 
         composable(
@@ -82,7 +82,7 @@ fun AtlasNavGraph(
             arguments = listOf(navArgument("usuarioId") { type = NavType.LongType })
         ) { backStackEntry ->
             val usuarioId = backStackEntry.arguments?.getLong("usuarioId") ?: usuarioIdInicial
-            CarteiraScreen(app = app, usuarioId = usuarioId)
+            CarteiraScreen(app = app, usuarioId = usuarioId, navController = navController)
         }
 
         composable(
@@ -90,7 +90,7 @@ fun AtlasNavGraph(
             arguments = listOf(navArgument("usuarioId") { type = NavType.LongType })
         ) { backStackEntry ->
             val usuarioId = backStackEntry.arguments?.getLong("usuarioId") ?: usuarioIdInicial
-            RelatoriosScreen(app = app, usuarioId = usuarioId)
+            RelatoriosScreen(app = app, usuarioId = usuarioId, navController = navController)
         }
     }
 }

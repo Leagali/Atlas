@@ -37,17 +37,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.atlasinvest.AtlasInvestApplication
 import com.example.atlasinvest.controller.CategoriaViewModel
 import com.example.atlasinvest.controller.FabricaViewModel
 import com.example.atlasinvest.controller.MovimentacaoViewModel
 import com.example.atlasinvest.data.local.entity.Categoria
 import com.example.atlasinvest.data.local.entity.TipoMovimentacao
+import com.example.atlasinvest.ui.navigation.Destino
+import com.example.atlasinvest.ui.theme.BarraInferiorAtlas
+import com.example.atlasinvest.ui.theme.CabecalhoAtlas
+import com.example.atlasinvest.ui.theme.FundoTela
 import java.text.NumberFormat
 import java.util.Locale
 
 @Composable
-fun MovimentacoesScreen(app: AtlasInvestApplication, usuarioId: Long) {
+fun MovimentacoesScreen(app: AtlasInvestApplication, usuarioId: Long, navController: NavHostController) {
     val viewModel: MovimentacaoViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
     val categoriaViewModel: CategoriaViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
 
@@ -58,7 +63,18 @@ fun MovimentacoesScreen(app: AtlasInvestApplication, usuarioId: Long) {
     var mostrarDialogo by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Movimentações") }) },
+        containerColor = FundoTela,
+        topBar = { CabecalhoAtlas(nomeUsuario = "Luiz", iniciais = "LL") },
+        bottomBar = {
+            BarraInferiorAtlas(
+                aoClicarInicio = { navController.navigate("${Destino.Dashboard.rota}/$usuarioId") },
+                aoClicarMovimentos = {},
+                aoClicarCarteira = { navController.navigate("${Destino.Carteira.rota}/$usuarioId") },
+                aoClicarRelatorios = { navController.navigate("${Destino.Relatorios.rota}/$usuarioId") },
+                aoClicarMetas = { navController.navigate("${Destino.Metas.rota}/$usuarioId") },
+                rotaAtual = "movimentacoes"
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = { mostrarDialogo = true }) {
                 Icon(Icons.Default.Add, contentDescription = "Adicionar movimentação")
