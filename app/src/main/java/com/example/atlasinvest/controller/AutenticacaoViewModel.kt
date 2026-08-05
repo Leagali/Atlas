@@ -40,6 +40,21 @@ sealed interface EstadoAutenticacao {
     }
 
     fun cadastrar(nome: String, email: String, senha: String, telefone: String?) {
+        if (!validarEmail(email)) {
+            _estado.value = EstadoAutenticacao.Erro("Por favor, insira um e-mail válido.")
+            return
+        }
+
+        if (telefone != null && !validarTelefone(telefone)) {
+            _estado.value = EstadoAutenticacao.Erro("O telefone deve conter 10 ou 11 dígitos numéricos.")
+            return
+        }
+
+        if (!validarSenha(senha)) {
+            _estado.value = EstadoAutenticacao.Erro("A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.")
+            return
+        }
+
         viewModelScope.launch {
             _estado.value = EstadoAutenticacao.Carregando
             when (val resultado = usuarioRepository.cadastrar(nome, email, senha, telefone)) {
@@ -51,6 +66,21 @@ sealed interface EstadoAutenticacao {
                 _estado.value = EstadoAutenticacao.Erro(resultado.mensagem)
             }
         }
+    }
+
+    private fun validarEmail(email: String): Boolean {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    }
+
+    private fun validarTelefone(telefone: String): Boolean {
+        val apenasDigitos = telefone.filter { it.isDigit() }
+        return apenasDigitos.length in 10..11
+    }
+
+    private fun validarSenha(senha: String): Boolean {
+        // Pelo menos 8 caracteres, 1 maiúscula, 1 número, 1 caractere especial
+        val regex = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$".toRegex()
+        return regex.matches(senha)
     }
 
     fun resetarEstado() {

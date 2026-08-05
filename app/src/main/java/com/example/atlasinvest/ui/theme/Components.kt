@@ -16,11 +16,17 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.PieChart
 import androidx.compose.material.icons.filled.Savings
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,9 +41,11 @@ import androidx.compose.ui.unit.sp
 fun CabecalhoAtlas(
     nomeUsuario: String,
     iniciais: String,
-    aoClicarMenu: () -> Unit = {},
-    acaoExtra: (@Composable () -> Unit)? = null
+    aoLogout: () -> Unit,
+    acaoExtra: (@Composable () -> Unit)? = null,
 ) {
+    var expandido by remember { mutableStateOf(value = false) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,8 +74,22 @@ fun CabecalhoAtlas(
 
         acaoExtra?.invoke()
 
-        IconButton(onClick = aoClicarMenu) {
-            Icon(Icons.Default.Menu, contentDescription = "Menu", tint = NavyInvest)
+        Box {
+            IconButton(onClick = { expandido = true }) {
+                Icon(Icons.Default.Menu, contentDescription = "Menu", tint = NavyInvest)
+            }
+            DropdownMenu(
+                expanded = expandido,
+                onDismissRequest = { expandido = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text("Sair da conta") },
+                    onClick = {
+                        expandido = false
+                        aoLogout()
+                    }
+                )
+            }
         }
     }
 }

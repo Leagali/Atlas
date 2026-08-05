@@ -75,6 +75,8 @@ dependencies {
     // Ícones extras do Material Design (usados nas telas)
     implementation(libs.material.icons.extended)
 
+    // Jetpack Glance (Widgets)
+    implementation(libs.androidx.glance.appwidget)
 
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

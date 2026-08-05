@@ -86,6 +86,12 @@ fun DashboardScreen(
             CabecalhoAtlas(
                 nomeUsuario = "Luiz",
                 iniciais = "LL",
+                aoLogout = {
+                    app.sessionManager.encerrarSessao()
+                    navController.navigate(Destino.Login.rota) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                },
                 acaoExtra = {
                     IconButton(onClick = { valoresVisiveis = !valoresVisiveis }) {
                         Icon(

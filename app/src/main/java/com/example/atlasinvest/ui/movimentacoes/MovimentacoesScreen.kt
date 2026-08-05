@@ -64,7 +64,18 @@ fun MovimentacoesScreen(app: AtlasInvestApplication, usuarioId: Long, navControl
 
     Scaffold(
         containerColor = FundoTela,
-        topBar = { CabecalhoAtlas(nomeUsuario = "Luiz", iniciais = "LL") },
+        topBar = {
+            CabecalhoAtlas(
+                nomeUsuario = "Luiz",
+                iniciais = "LL",
+                aoLogout = {
+                    app.sessionManager.encerrarSessao()
+                    navController.navigate(Destino.Login.rota) {
+                        popUpTo(0) { inclusive = true }
+                    }
+                }
+            )
+        },
         bottomBar = {
             BarraInferiorAtlas(
                 aoClicarInicio = { navController.navigate("${Destino.Dashboard.rota}/$usuarioId") },
