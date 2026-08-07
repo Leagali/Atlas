@@ -18,7 +18,7 @@ import com.example.atlasinvest.AtlasInvestApplication
 import com.example.atlasinvest.data.local.entity.Movimentacao
 import com.example.atlasinvest.data.local.entity.TipoMovimentacao
 import com.example.atlasinvest.ui.theme.AtlasInvestTheme
-import com.example.atlasinvest.ui.theme.VermelhoAtlas
+import com.example.atlasinvest.ui.theme.AzulAtlas
 import kotlinx.coroutines.launch
 
 class QuickExpenseActivity : ComponentActivity() {
@@ -87,7 +87,7 @@ fun QuickExpenseDialog(onDismiss: () -> Unit, onConfirm: (String, Double) -> Uni
                 "Registrar Gasto",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = VermelhoAtlas
+                color = AzulAtlas
             )
             Spacer(Modifier.height(16.dp))
             OutlinedTextField(
@@ -119,7 +119,7 @@ fun QuickExpenseDialog(onDismiss: () -> Unit, onConfirm: (String, Double) -> Uni
                             onConfirm(name, amount)
                         }
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = VermelhoAtlas)
+                    colors = ButtonDefaults.buttonColors(containerColor = AzulAtlas)
                 ) {
                     Text("Salvar")
                 }

@@ -12,15 +12,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val EsquemaClaro = lightColorScheme(
-    primary = VermelhoAtlas,
+    primary = AzulAtlas,
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFFFDAD4),
-    onPrimaryContainer = Color(0xFF410002),
-    secondary = NavyInvest,
+    primaryContainer = Color(0xFFD1E4FF),
+    onPrimaryContainer = Color(0xFF001D36),
+    secondary = AzulProfundo,
     onSecondary = Color.White,
     secondaryContainer = Color(0xFFD6E2FF),
     onSecondaryContainer = Color(0xFF001A41),
-    tertiary = AmareloAlerta,
+    tertiary = CianoInvest,
     onTertiary = Color.Black,
     background = FundoTela,
     onBackground = TextoPrimario,
@@ -31,14 +31,14 @@ private val EsquemaClaro = lightColorScheme(
 )
 
 private val EsquemaEscuro = darkColorScheme(
-    primary = VermelhoAtlas,
+    primary = AzulAtlas,
     onPrimary = Color.White,
-    secondary = NavyInvest,
+    secondary = AzulProfundo,
     onSecondary = Color.White,
-    tertiary = AmareloAlerta,
+    tertiary = CianoInvest,
     background = BarraInferior,
     onBackground = Color.White,
-    surface = Color(0xFF2B2B2B),
+    surface = Color(0xFF202124),
     onSurface = Color.White,
     error = VermelhoDespesa,
     onError = Color.White

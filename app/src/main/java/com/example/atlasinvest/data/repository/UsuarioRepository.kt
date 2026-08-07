@@ -3,6 +3,7 @@ package com.example.atlasinvest.data.repository
 import com.example.atlasinvest.data.local.dao.UsuarioDao
 import com.example.atlasinvest.data.local.entity.Usuario
 import com.example.atlasinvest.util.PasswordHasher
+import kotlinx.coroutines.flow.Flow
 
 class UsuarioRepository(private val usuarioDao: UsuarioDao) {
 
@@ -38,4 +39,6 @@ class UsuarioRepository(private val usuarioDao: UsuarioDao) {
             ResultadoAuth.Erro("E-mail ou senha inválidos.")
         }
     }
+
+    fun observarUsuario(id: Long): Flow<Usuario?> = usuarioDao.observarPorId(id)
 }

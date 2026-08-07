@@ -15,23 +15,17 @@ class AtlasInvestApplication : Application() {
     val database: AtlasInvestDatabase by lazy { AtlasInvestDatabase.getInstance(this) }
     val sessionManager: SessionManager by lazy { SessionManager(this) }
 
-    val usuarioRepository: UsuarioRepository by lazy {
-        UsuarioRepository(database.usuarioDao())
-    }
-
-    val categoriaRepository: CategoriaRepository by lazy {
-        CategoriaRepository(database.categoriaDao())
-    }
-
-    val movimentacaoRepository: MovimentacaoRepository by lazy {
-        MovimentacaoRepository(database.movimentacaoDao())
-    }
-
-    val metaRepository: MetaRepository by lazy {
-        MetaRepository(database.metaDao())
-    }
+    val usuarioRepository: UsuarioRepository by lazy { UsuarioRepository(database.usuarioDao()) }
+    val categoriaRepository: CategoriaRepository by lazy { CategoriaRepository(database.categoriaDao()) }
+    val movimentacaoRepository: MovimentacaoRepository by lazy { MovimentacaoRepository(database.movimentacaoDao()) }
+    val metaRepository: MetaRepository by lazy { MetaRepository(database.metaDao()) }
 
     val ativoRepository: AtivoRepository by lazy {
-        AtivoRepository(database.ativoDao(), database.cotacaoDao(), NetworkModule.cotacaoApiService)
+        AtivoRepository(
+            database.ativoDao(),
+            database.cotacaoDao(),
+            NetworkModule.cotacaoApiService,
+            NetworkModule.criptoApiService,
+        )
     }
 }

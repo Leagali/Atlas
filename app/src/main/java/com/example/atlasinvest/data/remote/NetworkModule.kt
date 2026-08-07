@@ -19,12 +19,14 @@ object NetworkModule {
         .readTimeout(15, TimeUnit.SECONDS)
         .build()
 
-    val cotacaoApiService: CotacaoApiService by lazy {
+    private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(CotacaoApiService::class.java)
     }
+
+    val cotacaoApiService: CotacaoApiService by lazy { retrofit.create(CotacaoApiService::class.java) }
+    val criptoApiService: CriptoApiService by lazy { retrofit.create(CriptoApiService::class.java) }
 }

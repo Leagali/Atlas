@@ -2,7 +2,6 @@
 
 package com.example.atlasinvest.ui.carteira
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,6 +49,7 @@ import androidx.navigation.NavHostController
 import com.example.atlasinvest.AtlasInvestApplication
 import com.example.atlasinvest.controller.CarteiraViewModel
 import com.example.atlasinvest.controller.FabricaViewModel
+import com.example.atlasinvest.controller.MetaViewModel
 import com.example.atlasinvest.data.local.entity.Ativo
 import com.example.atlasinvest.data.local.entity.Cotacao
 import com.example.atlasinvest.data.local.entity.TipoAtivo
@@ -65,12 +65,14 @@ import java.util.Locale
 @Composable
 fun CarteiraScreen(app: AtlasInvestApplication, usuarioId: Long, navController: NavHostController) {
     val viewModel: CarteiraViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
+    val metaViewModel: MetaViewModel = viewModel(factory = FabricaViewModel(app, usuarioId)) // Adicionado para pegar o usuário
+    val usuario by metaViewModel.usuario.collectAsState()
     val ativos by viewModel.ativos.collectAsState()
     val cotacoes by viewModel.cotacoes.collectAsState()
-    val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale("pt", "BR")) }
+    val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")) }
 
     var filtroTipo by remember { mutableStateOf<TipoAtivo?>(null) }
-    var mostrarDialogo by remember { mutableStateOf(false) }
+    var mostrarDialogo by remember { mutableStateOf(value = false) }
 
     val ativosFiltrados = if (filtroTipo == null) ativos else ativos.filter { it.tipo == filtroTipo }
     val totalCarteira = ativos.sumOf { it.quantidade * it.precoCompra }
@@ -79,8 +81,8 @@ fun CarteiraScreen(app: AtlasInvestApplication, usuarioId: Long, navController: 
         containerColor = FundoTela,
         topBar = {
             CabecalhoAtlas(
-                nomeUsuario = "Luiz",
-                iniciais = "LL",
+                nomeUsuario = usuario?.nome ?: "Usuário",
+                iniciais = usuario?.nome?.take(2)?.uppercase() ?: "US",
                 aoLogout = {
                     app.sessionManager.encerrarSessao()
                     navController.navigate(Destino.Login.rota) {
@@ -154,6 +156,7 @@ fun CarteiraScreen(app: AtlasInvestApplication, usuarioId: Long, navController: 
                 FiltroChip("FIIs", filtroTipo == TipoAtivo.FII) { filtroTipo = TipoAtivo.FII }
                 FiltroChip("Renda Fixa", filtroTipo == TipoAtivo.RENDA_FIXA) { filtroTipo = TipoAtivo.RENDA_FIXA }
                 FiltroChip("Ações", filtroTipo == TipoAtivo.ACAO) { filtroTipo = TipoAtivo.ACAO }
+                FiltroChip("Cripto", filtroTipo == TipoAtivo.CRIPTO) { filtroTipo = TipoAtivo.CRIPTO }
             }
 
             Spacer(Modifier.height(12.dp))
@@ -175,7 +178,13 @@ fun CarteiraScreen(app: AtlasInvestApplication, usuarioId: Long, navController: 
                     LazyColumn(modifier = Modifier.height(260.dp)) {
                         items(ativosFiltrados) { ativo ->
                             val cotacao = cotacoes.find { it.ticker == ativo.ticker }
-                            LinhaAtivo(ativo, cotacao, formatoMoeda)
+                            LinhaAtivo(
+                                ativo = ativo,
+                                cotacao = cotacao,
+                                formatoMoeda = formatoMoeda,
+                            ) {
+                                navController.navigate("${Destino.AtivoDetalhe.rota}/$usuarioId/${ativo.id}")
+                            }
                             HorizontalDivider()
                         }
                     }
@@ -218,19 +227,25 @@ private fun FiltroChip(texto: String, selecionado: Boolean, aoClicar: () -> Unit
 }
 
 @Composable
-private fun LinhaAtivo(ativo: Ativo, cotacao: Cotacao?, formatoMoeda: NumberFormat) {
+private fun LinhaAtivo(
+    ativo: Ativo,
+    cotacao: Cotacao?,
+    formatoMoeda: NumberFormat,
+    aoClicar: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable(onClick = aoClicar)
             .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(ativo.ticker, modifier = Modifier.weight(1.3f), fontSize = 13.sp, fontWeight = FontWeight.Medium)
-        Text("${ativo.quantidade.toInt()}", modifier = Modifier.weight(0.8f), fontSize = 13.sp)
+        Text(ativo.quantidade.toInt().toString(), modifier = Modifier.weight(0.8f), fontSize = 13.sp)
         Text(
             cotacao?.let { formatoMoeda.format(it.precoAtual) } ?: "—",
             modifier = Modifier.weight(1f),
-            fontSize = 13.sp
+            fontSize = 13.sp,
         )
         val variacao = cotacao?.variacao ?: 0.0
         val cor = if (variacao >= 0) VerdeReceita else VermelhoDespesa
@@ -239,7 +254,7 @@ private fun LinhaAtivo(ativo: Ativo, cotacao: Cotacao?, formatoMoeda: NumberForm
             modifier = Modifier.weight(0.8f),
             fontSize = 13.sp,
             color = cor,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
     }
 }
@@ -254,7 +269,7 @@ private fun DialogoNovoAtivo(
     var tipoSelecionado by remember { mutableStateOf(TipoAtivo.ACAO) }
     var quantidadeTexto by remember { mutableStateOf("") }
     var precoTexto by remember { mutableStateOf("") }
-    var expandido by remember { mutableStateOf(false) }
+    var expandido by remember { mutableStateOf(value = false) }
 
     AlertDialog(
         onDismissRequest = aoCancelar,
@@ -288,7 +303,7 @@ private fun DialogoNovoAtivo(
                         }
                     )
                     DropdownMenu(expanded = expandido, onDismissRequest = { expandido = false }) {
-                        TipoAtivo.values().forEach { tipo ->
+                        TipoAtivo.entries.forEach { tipo ->
                             DropdownMenuItem(
                                 text = { Text(tipo.name) },
                                 onClick = {

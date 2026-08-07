@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.atlasinvest.AtlasInvestApplication
+import com.example.atlasinvest.ui.carteira.AtivoDetalheScreen
 import com.example.atlasinvest.ui.carteira.CarteiraScreen
 import com.example.atlasinvest.ui.dashboard.DashboardScreen
 import com.example.atlasinvest.ui.login.CadastroScreen
@@ -20,7 +21,7 @@ import com.example.atlasinvest.ui.relatorios.RelatoriosScreen
 fun AtlasNavGraph(
     app: AtlasInvestApplication,
     navController: NavHostController = rememberNavController(),
-    usuarioIdInicial: Long
+    usuarioIdInicial: Long,
 ) {
     val destinoInicial = if (usuarioIdInicial > 0) {
         "${Destino.Dashboard.rota}/$usuarioIdInicial"
@@ -91,6 +92,18 @@ fun AtlasNavGraph(
         ) { backStackEntry ->
             val usuarioId = backStackEntry.arguments?.getLong("usuarioId") ?: usuarioIdInicial
             RelatoriosScreen(app = app, usuarioId = usuarioId, navController = navController)
+        }
+
+        composable(
+            route = "${Destino.AtivoDetalhe.rota}/{usuarioId}/{ativoId}",
+            arguments = listOf(
+                navArgument("usuarioId") { type = NavType.LongType },
+                navArgument("ativoId") { type = NavType.LongType }
+            )
+        ) { backStackEntry ->
+            val usuarioId = backStackEntry.arguments?.getLong("usuarioId") ?: usuarioIdInicial
+            val ativoId = backStackEntry.arguments?.getLong("ativoId") ?: -1L
+            AtivoDetalheScreen(app = app, usuarioId = usuarioId, ativoId = ativoId, navController = navController)
         }
     }
 }

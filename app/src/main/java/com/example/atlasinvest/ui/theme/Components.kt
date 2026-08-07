@@ -56,7 +56,7 @@ fun CabecalhoAtlas(
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .background(VermelhoAtlas, CircleShape),
+                .background(MaterialTheme.colorScheme.primary, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Text(iniciais, color = Color.White, fontWeight = FontWeight.Bold)
@@ -68,7 +68,7 @@ fun CabecalhoAtlas(
             text = "Olá, $nomeUsuario",
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
-            color = NavyInvest,
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.weight(1f)
         )
 
@@ -76,7 +76,7 @@ fun CabecalhoAtlas(
 
         Box {
             IconButton(onClick = { expandido = true }) {
-                Icon(Icons.Default.Menu, contentDescription = "Menu", tint = NavyInvest)
+                Icon(Icons.Default.Menu, contentDescription = "Menu", tint = MaterialTheme.colorScheme.primary)
             }
             DropdownMenu(
                 expanded = expandido,
@@ -118,25 +118,25 @@ fun BarraInferiorAtlas(
             icon = Icons.Default.Home,
             contentDescription = "Início",
             onClick = aoClicarInicio,
-            tint = if (rotaAtual == "dashboard") VermelhoAtlas else Color.White
+            tint = if (rotaAtual == "dashboard") MaterialTheme.colorScheme.primary else Color.White
         )
         BotaoIconeBarra(
             icon = Icons.AutoMirrored.Filled.List,
             contentDescription = "Movimentações",
             onClick = aoClicarMovimentos,
-            tint = if (rotaAtual == "movimentacoes") VermelhoAtlas else Color.White
+            tint = if (rotaAtual == "movimentacoes") MaterialTheme.colorScheme.primary else Color.White
         )
         BotaoIconeBarra(
             icon = Icons.Default.Savings,
             contentDescription = "Carteira",
             onClick = aoClicarCarteira,
-            tint = if (rotaAtual == "carteira") AmareloAlerta else Color.White
+            tint = if (rotaAtual == "carteira") MaterialTheme.colorScheme.tertiary else Color.White
         )
         BotaoIconeBarra(
             icon = Icons.Default.PieChart,
             contentDescription = "Relatórios",
             onClick = aoClicarRelatorios,
-            tint = if (rotaAtual == "relatorios") VermelhoAtlas else Color.White
+            tint = if (rotaAtual == "relatorios") MaterialTheme.colorScheme.primary else Color.White
         )
         BotaoIconeBarra(
             icon = Icons.Default.AccountBalance,

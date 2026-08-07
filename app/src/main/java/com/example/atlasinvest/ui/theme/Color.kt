@@ -2,19 +2,19 @@ package com.example.atlasinvest.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Visual Identity - Atlas Invest
-val VermelhoAtlas = Color(0xFF9D1C1C) // Deep, professional red
-val VermelhoAtlasEscuro = Color(0xFF7A1515)
-val NavyInvest = Color(0xFF1A2130) // High-contrast navy for text and accents
+// Visual Identity - Atlas Invest (Cold Palette)
+val AzulAtlas = Color(0xFF1A73E8) // Professional financial blue
+val AzulProfundo = Color(0xFF0D47A1) // Navy equivalent
+val CianoInvest = Color(0xFF00B8D4) // Accent color
 
 // Status Colors
-val VerdeReceita = Color(0xFF2F9E44)
-val VermelhoDespesa = Color(0xFFE03131)
-val AmareloAlerta = Color(0xFFF2A900)
+val VerdeReceita = Color(0xFF2E7D32)
+val VermelhoDespesa = Color(0xFFD32F2F)
+val AmareloAlerta = Color(0xFFFBC02D)
 
 // Layout Colors
-val FundoTela = Color(0xFFF1F3F5) // Soft neutral grey
+val FundoTela = Color(0xFFF8F9FA) // Ice grey
 val FundoCard = Color(0xFFFFFFFF)
-val TextoPrimario = Color(0xFF212529)
-val TextoSecundario = Color(0xFF6B7280)
-val BarraInferior = Color(0xFF1A1A1A) // Near-black for the bottom bar
+val TextoPrimario = Color(0xFF121212)
+val TextoSecundario = Color(0xFF5F6368)
+val BarraInferior = Color(0xFF1A1C1E) 

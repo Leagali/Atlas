@@ -33,8 +33,8 @@ import com.example.atlasinvest.AtlasInvestApplication
 import com.example.atlasinvest.controller.AutenticacaoViewModel
 import com.example.atlasinvest.controller.EstadoAutenticacao
 import com.example.atlasinvest.controller.FabricaViewModel
-import com.example.atlasinvest.ui.theme.NavyInvest
-import com.example.atlasinvest.ui.theme.VermelhoAtlas
+import com.example.atlasinvest.ui.theme.AzulAtlas
+import com.example.atlasinvest.ui.theme.AzulProfundo
 
 @Composable
 fun LoginScreen(
@@ -67,14 +67,14 @@ fun LoginScreen(
         Text(
             text = "Atlas Invest",
             style = MaterialTheme.typography.headlineLarge,
-            color = VermelhoAtlas,
+            color = AzulAtlas,
             fontWeight = FontWeight.ExtraBold,
             letterSpacing = 1.sp
         )
         Text(
             text = "Sua jornada financeira começa aqui",
             style = MaterialTheme.typography.bodyMedium,
-            color = NavyInvest,
+            color = AzulProfundo,
             modifier = Modifier.padding(top = 4.dp)
         )
         
@@ -87,8 +87,8 @@ fun LoginScreen(
             singleLine = true,
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = VermelhoAtlas,
-                focusedLabelColor = VermelhoAtlas
+                focusedBorderColor = AzulAtlas,
+                focusedLabelColor = AzulAtlas
             )
         )
         Spacer(Modifier.height(16.dp))
@@ -101,8 +101,8 @@ fun LoginScreen(
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = VermelhoAtlas,
-                focusedLabelColor = VermelhoAtlas
+                focusedBorderColor = AzulAtlas,
+                focusedLabelColor = AzulAtlas
             )
         )
         Spacer(Modifier.height(32.dp))
@@ -122,7 +122,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = VermelhoAtlas),
+            colors = ButtonDefaults.buttonColors(containerColor = AzulAtlas),
             shape = RoundedCornerShape(12.dp)
         ) {
             Text(
@@ -135,7 +135,7 @@ fun LoginScreen(
         TextButton(onClick = aoNavegarParaCadastro) {
             Text(
                 "Não tem conta? Cadastre-se",
-                color = NavyInvest,
+                color = AzulProfundo,
                 fontWeight = FontWeight.SemiBold
             )
         }

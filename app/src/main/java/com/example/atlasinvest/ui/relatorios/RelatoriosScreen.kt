@@ -65,12 +65,13 @@ fun RelatoriosScreen(app: AtlasInvestApplication, usuarioId: Long, navController
     val viewModel: MovimentacaoViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
     val categoriaViewModel: CategoriaViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
 
+    val usuario by viewModel.usuario.collectAsState()
     val movimentacoes by viewModel.movimentacoes.collectAsState()
     val categorias by categoriaViewModel.categorias.collectAsState()
-    val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale("pt", "BR")) }
-    val formatoData = remember { SimpleDateFormat("dd/MM/yyyy — HH:mm", Locale("pt", "BR")) }
+    val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")) }
+    val formatoData = remember { SimpleDateFormat("dd/MM/yyyy — HH:mm", Locale.forLanguageTag("pt-BR")) }
 
-    var mostrarDialogo by remember { mutableStateOf(false) }
+    var mostrarDialogo by remember { mutableStateOf(value = false) }
 
     // Despesas fixas ainda não têm ViewModel próprio — placeholder estático por enquanto.
     val despesasFixasExemplo = listOf(
@@ -84,8 +85,8 @@ fun RelatoriosScreen(app: AtlasInvestApplication, usuarioId: Long, navController
         containerColor = FundoTela,
         topBar = {
             CabecalhoAtlas(
-                nomeUsuario = "Luiz",
-                iniciais = "LL",
+                nomeUsuario = usuario?.nome ?: "Usuário",
+                iniciais = usuario?.nome?.take(2)?.uppercase() ?: "US",
                 aoLogout = {
                     app.sessionManager.encerrarSessao()
                     navController.navigate(Destino.Login.rota) {

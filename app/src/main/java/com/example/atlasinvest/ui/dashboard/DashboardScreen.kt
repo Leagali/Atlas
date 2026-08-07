@@ -65,11 +65,12 @@ fun DashboardScreen(
     val viewModel: MovimentacaoViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
     val metaViewModel: MetaViewModel = viewModel(factory = FabricaViewModel(app, usuarioId))
 
+    val usuario by viewModel.usuario.collectAsState()
     val saldo by viewModel.saldo.collectAsState()
     val movimentacoes by viewModel.movimentacoes.collectAsState()
     val metas by metaViewModel.metas.collectAsState()
 
-    val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale("pt", "BR")) }
+    val formatoMoeda = remember { NumberFormat.getCurrencyInstance(Locale.forLanguageTag("pt-BR")) }
 
     val totalReceitas = movimentacoes
         .filter { it.tipo == com.example.atlasinvest.data.local.entity.TipoMovimentacao.RECEITA }
@@ -78,14 +79,14 @@ fun DashboardScreen(
         .filter { it.tipo == com.example.atlasinvest.data.local.entity.TipoMovimentacao.DESPESA }
         .sumOf { it.valor }
 
-    var valoresVisiveis by remember { mutableStateOf(true) }
+    var valoresVisiveis by remember { mutableStateOf(value = true) }
 
     Scaffold(
         containerColor = FundoTela,
         topBar = {
             CabecalhoAtlas(
-                nomeUsuario = "Luiz",
-                iniciais = "LL",
+                nomeUsuario = usuario?.nome ?: "Usuário",
+                iniciais = usuario?.nome?.take(2)?.uppercase() ?: "US",
                 aoLogout = {
                     app.sessionManager.encerrarSessao()
                     navController.navigate(Destino.Login.rota) {

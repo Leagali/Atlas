@@ -8,4 +8,6 @@ sealed class Destino(val rota: String) {
     data object Metas : Destino("metas")
     data object Carteira : Destino("carteira")
     data object Relatorios : Destino("relatorios")
+
+    data object AtivoDetalhe : Destino("ativo_detalhe")
 }

@@ -24,8 +24,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import androidx.glance.appwidget.cornerRadius
-import com.example.atlasinvest.ui.theme.NavyInvest
-import com.example.atlasinvest.ui.theme.VermelhoAtlas
+import com.example.atlasinvest.ui.theme.AzulAtlas
+import com.example.atlasinvest.ui.theme.AzulProfundo
 
 class QuickExpenseWidget : GlanceAppWidget() {
 
@@ -37,11 +37,11 @@ class QuickExpenseWidget : GlanceAppWidget() {
 
     @Composable
     private fun WidgetContent() {
-        // Usamos Box como container principal com fundo Navy e cantos arredondados
+        // Usamos Box como container principal com fundo AzulProfundo e cantos arredondados
         Box(
             modifier = GlanceModifier
                 .fillMaxSize()
-                .background(ColorProvider(NavyInvest))
+                .background(ColorProvider(AzulProfundo))
                 .cornerRadius(16.dp)
                 .padding(12.dp),
             contentAlignment = Alignment.Center
@@ -64,7 +64,7 @@ class QuickExpenseWidget : GlanceAppWidget() {
                     text = "Registrar gasto",
                     onClick = actionStartActivity<QuickExpenseActivity>(),
                     colors = ButtonDefaults.buttonColors(
-                        backgroundColor = ColorProvider(VermelhoAtlas),
+                        backgroundColor = ColorProvider(AzulAtlas),
                         contentColor = ColorProvider(Color.White)
                     ),
                     modifier = GlanceModifier.padding(top = 4.dp)

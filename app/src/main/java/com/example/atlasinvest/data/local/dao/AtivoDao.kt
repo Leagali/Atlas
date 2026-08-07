@@ -22,6 +22,14 @@ interface AtivoDao {
     @Query("SELECT * FROM ativos WHERE usuarioId = :usuarioId ORDER BY nome")
     fun observarPorUsuario(usuarioId: Long): Flow<List<Ativo>>
 
-    @Query("SELECT DISTINCT ticker FROM ativos WHERE usuarioId = :usuarioId")
-    suspend fun listarTickersPorUsuario(usuarioId: Long): List<String>
+    @Query("SELECT * FROM ativos WHERE id = :id LIMIT 1")
+    suspend fun buscarPorId(id: Long): Ativo?
+
+    // Ações e FIIs vão pro endpoint /api/quote da brapi.dev
+    @Query("SELECT DISTINCT ticker FROM ativos WHERE usuarioId = :usuarioId AND tipo IN ('ACAO', 'FII')")
+    suspend fun listarTickersNegociadosPorUsuario(usuarioId: Long): List<String>
+
+    // Criptomoedas vão pro endpoint /api/v2/crypto, separado
+    @Query("SELECT DISTINCT ticker FROM ativos WHERE usuarioId = :usuarioId AND tipo = 'CRIPTO'")
+    suspend fun listarTickersCriptoPorUsuario(usuarioId: Long): List<String>
 }
